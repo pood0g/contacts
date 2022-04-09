@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="containter m-3 p-3">
+    <h2>Contacts.</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <form method="post">
+                <div class="input-group input-group-sm">
+                    {% csrf_token %}
+                    {{ search_form.query }}
+                    <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% load onclick_wrap %}
+                    {% for contact in contacts %}
+                    <tr>
+                        <td width="25%">{{ contact.firstname }}</td>
+                        <td width="25%">{{ contact.lastname }}</td>
+                        <td width="25%">{{ contact.email }}</td>
+                        <td width="10%">{{ contact.phone }}</td>
+                        <td width="20px">
+                            <div class="btn-group float-end">
+                                <a href="/update/{{ contact.id }}" class="btn btn-primary"><i
+                                        class="fa fa-pencil"></i></a>
+                                <button class="btn btn-danger" {{ contact.id|modal_popup }}><i
+                                        class="fa fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_div">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body" id="modal_body">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

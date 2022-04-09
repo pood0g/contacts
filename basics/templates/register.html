@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="containter-sm m-5 px-5 py-2 border">
+    <h3>Register new user</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form registration_form %}
+        {% buttons submit="Submit" %}
+        {% endbuttons %}
+    </form>
+</div>
+
+{% endblock %}

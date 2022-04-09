@@ -1,0 +1,86 @@
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/base.css">
+    {% bootstrap_javascript %}
+    <script src="/static/js/siteFunctions.js"></script>
+    <title>Contacts</title>
+</head>
+
+<body>
+    <div class="container-fluid p-1 bg-secondary text-white text-center">
+        <h1 class="display-1">Contacts</h1>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Home</a>
+            <ul class="navbar-nav">
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register/" class="nav-link">Register</a>
+                </li>
+                {% else %}
+                {#% TODO: convert this into block navbar %#}
+                <li class="nav-item">
+                    <a class="nav-link {% if active == 1 %}active{% endif %}" href="/people">Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active == 2 %}active{% endif %}" href="/add/">Add Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/logout">Logout</a>
+                </li>
+                {#% endblock %#}
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {% bootstrap_messages %}
+
+    <div class="modal fade" id="login">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h3>Log In</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/auth/login/" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 mt-3">
+                            <label for="username" class="form-label">Username:</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                                name="username">
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter Password"
+                                name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>

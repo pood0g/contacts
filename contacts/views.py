@@ -8,6 +8,8 @@ from .models import Contact
 from .forms import ContactDetailsForm, RegisterUserForm, SearchContactsForm 
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.crypto import get_random_string
+from django.utils.text import slugify
 
 def home_page(request):
     return render(request, "home.html")
@@ -49,6 +51,8 @@ class AddContactView(CreateView, LoginRequiredMixin):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+        form.instance.slug = slugify(get_random_string(length=16))
+        self.object = form.save()
         messages.success(self.request, "Contact added successfully.")
         return super().form_valid(form)
 

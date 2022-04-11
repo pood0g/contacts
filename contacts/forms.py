@@ -8,7 +8,7 @@ from re import sub
 class ContactDetailsForm(forms.ModelForm):
     
     class Meta:
-        exclude = ["owner"]
+        exclude = ["owner", "slug"]
         model = Contact
 
     firstname = forms.RegexField(

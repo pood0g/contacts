@@ -7,5 +7,5 @@ register = template.Library()
 
 @register.filter()
 @stringfilter
-def modal_popup(url, id=None):
-    return mark_safe(f"onclick=\"modalPopup('{url}', {id})\"") if id else mark_safe(f"onclick=\"modalPopup('{url}')\"")
+def modal_popup(url, slug=None):
+    return mark_safe(f"onclick=\"modalPopup('{url}', '{slug}')\"") if slug else mark_safe(f"onclick=\"modalPopup('{url}')\"")

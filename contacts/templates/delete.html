@@ -1,6 +1,6 @@
 <p>Are you sure?</p>
 <div class="btn-group float-end">
-    <form action="{% url 'delete' pk=object.id %}" method="POST">
+    <form action="{% url 'delete' slug=object.slug %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-success" type="submit">
             <i class="fa fa-check"></i>Yes</button>

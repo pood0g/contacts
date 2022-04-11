@@ -2,3 +2,5 @@ main/secrets.py
 .vscode
 db.sqlite3
 */__pycache__/
+migrations/*.py
+!migrations/0001_initial.py

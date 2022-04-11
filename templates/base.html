@@ -30,18 +30,8 @@
                     <a href="{% url 'register' %}" class="nav-link">Register</a>
                 </li>
                 {% else %}
-                {% load modal_popup %}
-                {#% TODO: convert this into block navbar %#}
-                <li class="nav-item">
-                    <a class="nav-link {% if active == 1 %}active{% endif %}" href="{% url 'contacts' %}">Contacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if active == 2 %}active{% endif %}" href="{% url 'add' %}">Add Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-                {#% endblock %#}
+                {%  block navbar %}
+                {% endblock %}
                 {% endif %}
             </ul>
         </div>

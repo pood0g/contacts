@@ -72,18 +72,14 @@ class DeleteContactView(LoginRequiredMixin, DeleteView):
     model = Contact
     success_url = reverse_lazy('contacts')
 
-@login_required(login_url="/auth/login")
-def delete(request, id):
-    try:
-        person = Contact.objects.get(id=id)
-        if person.owner == request.user:
-            person.delete()
-            messages.success(request, "Record Deleted Successfully!")
+    def form_valid(self, form):
+        if self.object.owner == self.request.user:
+            self.object.delete()
+            messages.success(self.request, "Contact deleted successfully.")
         else:
-            messages.error(request, "You do not own that contact.")
-    except Contact.DoesNotExist:
-        messages.error(request, "That contact does not exist.")
-    return redirect("contacts")
+            messages.error(self.request, "Contact not deleted")
+        return redirect(self.success_url)
+
 
 def register_user(request):
     if request.method == "POST":

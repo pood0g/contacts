@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 
 {% load bootstrap5 %}
+{% load modal_popup %}
 
 {% block content %}
 <div class="containter m-3 p-3">
-    <h2>Contacts.</h2>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 float-end">
             <form method="post">
                 <div class="input-group input-group-sm">
                     {% csrf_token %}
@@ -25,10 +25,10 @@
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th><button class="btn btn-success float-end" {{ '/add'|modal_popup }}><i class="fa fa-plus"></i></button></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% load modal_popup %}
                     {% for contact in contacts %}
                     <tr>
                         <td width="25%">{{ contact.firstname }}</td>
@@ -37,7 +37,7 @@
                         <td width="10%">{{ contact.phone }}</td>
                         <td width="20px">
                             <div class="btn-group float-end">
-                                <button class="btn btn-primary" {{ '/add/'|modal_popup:contact.id }}><i
+                                <button class="btn btn-primary" {{ '/update/'|modal_popup:contact.id }}><i
                                         class="fa fa-pencil"></i></button>
                                 <button class="btn btn-danger" {{ '/delete/'|modal_popup:contact.id }}><i
                                         class="fa fa-trash"></i></button>
@@ -51,7 +51,7 @@
     </div>
 </div>
 <div class="modal fade" id="modal_div">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" id="modal_body">
             </div>

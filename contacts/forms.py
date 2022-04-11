@@ -19,8 +19,11 @@ class ContactDetailsForm(forms.ModelForm):
             "invalid": "Firstname must consist only letters A-Z and a-z",
             },
         widget=forms.TextInput(
-            attrs={"placeholder": "Enter first name"}),
-    )
+            attrs={
+                "placeholder": "Enter first name",
+                "class": "form-control",
+                }),
+                )
     lastname = forms.RegexField(
         regex=r"^[a-zA-Z]+$",
         max_length=40,
@@ -29,19 +32,29 @@ class ContactDetailsForm(forms.ModelForm):
             "invalid": "Lastname must consist only letters A-Z and a-z",
             },
         widget=forms.TextInput(
-            attrs={"placeholder": "Enter last name"}),
-    )
+            attrs={
+                "placeholder": "Enter last name",
+                "class": "form-control",
+                }),
+                )
     email = forms.EmailField(
         label="Email Address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Enter email address"})
-    )
+            attrs={
+                "placeholder": "Enter email address",
+                "class": "form-control",
+                }),
+                )
     phone = forms.RegexField(
         regex=r"[\d\(\)\-\s\+]+",
         label="Phone Number",
         error_messages={"invalid": "Phone Number may only contain digits and \"+ - ( )\" characters"},
-        widget=forms.TextInput(attrs={"placeholder": "Enter phone number"}),
-    )
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter phone number",
+                "class": "form-control",
+                }),
+                )
 
     def clean(self):
         phone = sub(r"[^\d\+]", "",self.cleaned_data['phone'])

@@ -1,11 +1,27 @@
-{% load bootstrap5 %}
-
-    <div class="containter-sm m-5 px-5 py-2 border">
-        <h3>{{ heading }}</h3>
-        <form action="{{ action }}" method="post">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            {% buttons submit="Submit" %}
-            {% endbuttons %}
-        </form>
-    </div>
+<div class="containter-sm m-1 px-2 py-2">
+    <h3>{{ heading }}</h3>
+    <form action="{{ action }}" method="post">
+        {% csrf_token %}
+        <div class="form-floating mb-2" id="fname-float">
+            {{ form.firstname }}
+            <label for="fname-float">{{ form.firstname.label }}</label>
+        </div>
+        <div class="form-floating mb-2" id="lname-float">
+            {{ form.lastname }}
+            <label for="lname-float">{{ form.lastname.label }}</label>
+        </div>
+        <div class="form-floating mb-2" id="email-float">
+            {{ form.email }}
+            <label for="email-float">{{ form.email.label }}</label>
+        </div>
+        <div class="form-floating mb-2" id="phone-float">
+            {{ form.phone }}
+            <label for="phone-float">{{ form.phone.label }}</label>
+        </div>
+            <button class="btn btn-success" type="submit">
+                <i class="fa fa-check"></i> Add</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+                <i class="fa fa-remove"></i> Cancel</button>
+        </div>
+    </form>
+</div>

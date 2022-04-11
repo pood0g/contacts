@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% bootstrap_css %}
@@ -27,18 +27,19 @@
                     <a class="nav-link" data-bs-toggle="modal" data-bs-target="#login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/register/" class="nav-link">Register</a>
+                    <a href="{% url 'register' %}" class="nav-link">Register</a>
                 </li>
                 {% else %}
+                {% load modal_popup %}
                 {#% TODO: convert this into block navbar %#}
                 <li class="nav-item">
-                    <a class="nav-link {% if active == 1 %}active{% endif %}" href="/people">Contacts</a>
+                    <a class="nav-link {% if active == 1 %}active{% endif %}" href="{% url 'contacts' %}">Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if active == 2 %}active{% endif %}" href="/add/">Add Contact</a>
+                    <a class="nav-link {% if active == 2 %}active{% endif %}" href="{% url 'add' %}">Add Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/auth/logout">Logout</a>
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
                 {#% endblock %#}
                 {% endif %}

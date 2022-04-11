@@ -1,5 +1,6 @@
 from pathlib import Path
 from .secrets import SECRET_KEY
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'basics.apps.BasicsConfig',
+    'contacts.apps.ContactsConfig',
     'bootstrap5',
 ]
 
@@ -116,7 +117,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth stuff
-LOGIN_REDIRECT_URL = "/people"
+LOGIN_REDIRECT_URL = reverse_lazy('contacts')
 LOGOUT_REDIRECT_URL = "/"
 
 # Static files

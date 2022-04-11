@@ -8,8 +8,8 @@ from re import sub
 class ContactDetailsForm(forms.ModelForm):
     
     class Meta:
-        model = Contact
         exclude = ["owner"]
+        model = Contact
 
     firstname = forms.RegexField(
         regex=r"^[a-zA-Z]+$",
@@ -39,14 +39,19 @@ class ContactDetailsForm(forms.ModelForm):
     phone = forms.RegexField(
         regex=r"[\d\(\)\-\s\+]+",
         label="Phone Number",
-        error_messages={"invalid": "Phone Number may only contain digits and (,+,-,) characters"},
+        error_messages={"invalid": "Phone Number may only contain digits and \"+ - ( )\" characters"},
         widget=forms.TextInput(attrs={"placeholder": "Enter phone number"}),
     )
 
     def clean(self):
-        phone = sub(r"[^\d]", "",self.cleaned_data['phone'])
+        phone = sub(r"[^\d\+]", "",self.cleaned_data['phone'])
         if phone[:2] == "04" and len(phone) == 10:
             self.cleaned_data['phone'] = f"{phone[:4]} {phone[4:7]} {phone[7:]}"
+        elif phone.startswith('+') and len(phone) == 11:
+            self.cleaned_data['phone'] = f"+{phone[1:3]} {phone[3]} {phone[4:8]} {phone[8:]}"
+        elif phone[:2] in ["02", "03", "07", "08"] and len(phone) == 10:
+            self.cleaned_data['phone'] = f"({phone[:2]}) {phone[2:6]} {phone[6:]}"
+
 
 class SearchContactsForm(forms.Form):
     query = forms.CharField(
@@ -57,6 +62,7 @@ class SearchContactsForm(forms.Form):
                 "placeholder": "Search",
                 "class": "form-control",
                 }))
+
 
 class RegisterUserForm(UserCreationForm):
     email = forms.EmailField(

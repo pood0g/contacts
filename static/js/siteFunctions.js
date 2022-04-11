@@ -1,5 +1,5 @@
 // pops the modal for the delete confirmation dialogue, check if vulnerable to XSS?
-function modalPopup(id) {
+function modalPopup(url, id) {
     id = Number(id);
 
     var xhr = new XMLHttpRequest;
@@ -7,13 +7,14 @@ function modalPopup(id) {
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200){
             document.querySelector("#modal_body").innerHTML = xhr.response;
+            bootstrap.Modal.getOrCreateInstance(document.querySelector("#modal_div")).show();
         }
     }
 
-    xhr.open("GET", `/delete/${id}/`, true);
+    url = (id) ? `${url}${id}` : `${url}`
+    xhr.open("GET", url, true);
     xhr.send();
 
-    bootstrap.Modal.getOrCreateInstance(document.querySelector("#modal_div")).show();
 
 }
 

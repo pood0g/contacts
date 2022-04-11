@@ -1,4 +1,3 @@
-from urllib import request
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -37,7 +36,7 @@ def contacts_page(request):
     return render(request, "contacts.html", context)
 
 
-class AddContactView(LoginRequiredMixin, CreateView):
+class AddContactView(CreateView, LoginRequiredMixin):
     template_name = "add_modify.html"
     form_class = ContactDetailsForm
     success_url = reverse_lazy("contacts")
@@ -54,14 +53,19 @@ class AddContactView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdateContactView(LoginRequiredMixin, UpdateView):
+class UpdateContactView(UpdateView, LoginRequiredMixin):
     template_name = "add_modify.html"
     success_url = reverse_lazy("contacts")
+    model = Contact
     form_class = ContactDetailsForm
     extra_context = {
         "heading": "Update contact",
         "action": reverse_lazy('update'),
     }
+
+    def form_valid(self, form):
+        messages.success(self.request, "Contact updated successfully.")
+        return super().form_valid(form)
 
 class DeleteContactView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'

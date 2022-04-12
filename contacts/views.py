@@ -45,6 +45,7 @@ class AddContactView(CreateView, LoginRequiredMixin):
     model = Contact
     extra_context = {
         "heading": "Add contact",
+        "button": 'Add',
         "action": reverse_lazy('add'),
         "active": 2,
     }
@@ -56,20 +57,30 @@ class AddContactView(CreateView, LoginRequiredMixin):
         messages.success(self.request, "Contact added successfully.")
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        messages.error(self.request, "Contacts form was invalid")
+        return redirect('contacts')
 
-class UpdateContactView(UpdateView, LoginRequiredMixin):
+
+class ModifyContactView(UpdateView, LoginRequiredMixin):
     template_name = "add_modify.html"
     success_url = reverse_lazy("contacts")
     model = Contact
     form_class = ContactDetailsForm
     extra_context = {
         "heading": "Update contact",
-        "action": reverse_lazy('update'),
+        "button": "Update"
     }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = reverse_lazy('modify', kwargs={"slug": self.object.slug})
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, "Contact updated successfully.")
         return super().form_valid(form)
+
 
 class DeleteContactView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'

@@ -13,57 +13,57 @@ class ContactDetailsForm(forms.ModelForm):
 
     firstname = forms.RegexField(
         regex=r"^[a-zA-Z]+$",
-        max_length=40,
+        max_length=50,
         label="First Name",
-        error_messages={
-            "invalid": "Firstname must consist only letters A-Z and a-z",
-            },
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter first name",
                 "class": "form-control",
-                }),
-                )
+                "pattern": "^[a-zA-Z]{,50}$",
+                }))
+
     lastname = forms.RegexField(
         regex=r"^[a-zA-Z]+$",
-        max_length=40,
+        max_length=50,
         label="Last Name",
-        error_messages={
-            "invalid": "Lastname must consist only letters A-Z and a-z",
-            },
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter last name",
                 "class": "form-control",
-                }),
-                )
+                "pattern": "^[a-zA-Z]{,50}$",
+                }))
+
     email = forms.EmailField(
         label="Email Address",
+        max_length=80,
         widget=forms.EmailInput(
             attrs={
                 "placeholder": "Enter email address",
                 "class": "form-control",
-                }),
-                )
+                "pattern": "^[\w\.]+@\w+\.(\w+\.?)+$"
+                }))
+
     phone = forms.RegexField(
         regex=r"[\d\(\)\-\s\+]+",
         label="Phone Number",
+        max_length=20,
         error_messages={"invalid": "Phone Number may only contain digits and \"+ - ( )\" characters"},
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter phone number",
                 "class": "form-control",
-                }),
-                )
+                "pattern": "^[0-9\+\-\(\)\s]{,20}$"
+                }))
 
     def clean(self):
-        phone = sub(r"[^\d\+]", "",self.cleaned_data['phone'])
-        if phone[:2] == "04" and len(phone) == 10:
-            self.cleaned_data['phone'] = f"{phone[:4]} {phone[4:7]} {phone[7:]}"
-        elif phone.startswith('+') and len(phone) == 11:
-            self.cleaned_data['phone'] = f"+{phone[1:3]} {phone[3]} {phone[4:8]} {phone[8:]}"
-        elif phone[:2] in ["02", "03", "07", "08"] and len(phone) == 10:
-            self.cleaned_data['phone'] = f"({phone[:2]}) {phone[2:6]} {phone[6:]}"
+        if self.is_valid():
+            phone = sub(r"[^\d\+]", "",self.cleaned_data['phone'])
+            if phone[:2] == "04" and len(phone) == 10:
+                self.cleaned_data['phone'] = f"{phone[:4]} {phone[4:7]} {phone[7:]}"
+            elif phone.startswith('+') and len(phone) == 11:
+                self.cleaned_data['phone'] = f"+{phone[1:3]} {phone[3]} {phone[4:8]} {phone[8:]}"
+            elif phone[:2] in ["02", "03", "07", "08"] and len(phone) == 10:
+                self.cleaned_data['phone'] = f"({phone[:2]}) {phone[2:6]} {phone[6:]}"
 
 
 class SearchContactsForm(forms.Form):

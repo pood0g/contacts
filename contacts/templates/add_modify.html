@@ -1,27 +1,38 @@
-<div class="containter-sm m-1 px-2 py-2">
-    <h3>{{ heading }}</h3>
-    <form action="{{ action }}" method="post">
-        {% csrf_token %}
-        <div class="form-floating mb-2" id="fname-float">
-            {{ form.firstname }}
-            <label for="fname-float">{{ form.firstname.label }}</label>
+<h3 class="pb-3">{{ heading }}</h3>
+<form action="{{ action }}" method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="form-floating pb-2" id="fname-float">
+        {{ form.firstname }}
+        <label for="fname-float">{{ form.firstname.label }}</label>
+        <div class="invalid-feedback" id="feedback">
+            First name must consist only uppercase and lowercase letters.
         </div>
-        <div class="form-floating mb-2" id="lname-float">
-            {{ form.lastname }}
-            <label for="lname-float">{{ form.lastname.label }}</label>
+    </div>
+    <div class="form-floating pb-2" id="lname-float">
+        {{ form.lastname }}
+        <label for="lname-float">{{ form.lastname.label }}</label>
+        <div class="invalid-feedback" id="feedback">
+            Last name must consist only uppercase and lowercase letters.
         </div>
-        <div class="form-floating mb-2" id="email-float">
-            {{ form.email }}
-            <label for="email-float">{{ form.email.label }}</label>
+    </div>
+    <div class="form-floating pb-2" id="email-float">
+        {{ form.email }}
+        <label for="email-float">{{ form.email.label }}</label>
+        <div class="invalid-feedback" id="feedback">
+            Not a valid email address.
         </div>
-        <div class="form-floating mb-2" id="phone-float">
-            {{ form.phone }}
-            <label for="phone-float">{{ form.phone.label }}</label>
+    </div>
+    <div class="form-floating pb-2" id="phone-float">
+        {{ form.phone }}
+        <label for="phone-float">{{ form.phone.label }}</label>
+        <div class="invalid-feedback" id="feedback">
+            Phone must consist only digits spaces or +()-
         </div>
-            <button class="btn btn-success" type="submit">
-                <i class="fa fa-check"></i> Add</button>
-            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
-                <i class="fa fa-remove"></i> Cancel</button>
-        </div>
-    </form>
-</div>
+    </div>
+    <div class="float-end pt-3">
+        <button class="btn btn-success" type="submit">
+            <i class="fa fa-check"></i> {{ button }}</button>
+        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+            <i class="fa fa-remove"></i> Cancel</button>
+    </div>
+</form>

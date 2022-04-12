@@ -78,8 +78,12 @@ class ModifyContactView(UpdateView, LoginRequiredMixin):
         return context
 
     def form_valid(self, form):
-        messages.success(self.request, "Contact updated successfully.")
-        return super().form_valid(form)
+        if self.object.owner == self.request.user:
+            self.object.save()
+            messages.success(self.request, "Contact updated successfully.")
+        else:
+            messages.error(self.request, "Contact not modified.")
+        return redirect('contacts')
 
 
 class DeleteContactView(LoginRequiredMixin, DeleteView):

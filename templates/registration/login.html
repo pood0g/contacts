@@ -5,11 +5,11 @@
 </div>
 <div class="modal-body">
     <div class="containter-sm py-2">
-        <form action="{% url 'login' %}" method="post" id="login_form">
+        {% url 'login' as login %}
+        <form action="{% modal_post_request login 'login_form' %}" id="login_form">
             {% csrf_token %}
             {{ form }}
-            {% url 'login' as login %}
-            <button class="btn btn-primary" {% modal_post_request login %}>Login</button>
+            <button type="submit" class="btn btn-primary" >Login</button>
         </form>
     </div>
 </div>

@@ -7,8 +7,8 @@ register = template.Library()
 
 @register.simple_tag
 def modal_popup(url):
-    return mark_safe(f"onclick=\"modalPopup('{url}')\"")
+    return mark_safe(f"onclick=\"modalPopup('{url}');\"")
 
 @register.simple_tag
-def modal_post_request(url):
-    return mark_safe(f"onclick=modalPostRequest('{url}')")
+def modal_post_request(url, id):
+    return mark_safe(f"javascript:modalPostRequest('{url}', '{id}');")

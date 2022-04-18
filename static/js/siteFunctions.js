@@ -15,15 +15,15 @@ function modalPopup(url) {
   xhr.send();
 }
 
-function modalPostRequest(url) {
+function modalPostRequest(url, id) {
 
-  var xhr = new XMLHttpRequest
-  var formData = new FormData(document.querySelector('#login_form'))
+  var xhr = new XMLHttpRequest;
+  var formData = new FormData(document.querySelector(`#${id}`));
 
   xhr.onload = function () {
     if (this.responseURL.endsWith(url)) {
     document.querySelector('#modal_content').innerHTML = xhr.response;
-    }
+    } else document.location = this.responseURL;
   }
 
   xhr.open('POST', url);

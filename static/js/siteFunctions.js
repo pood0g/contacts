@@ -1,4 +1,4 @@
-// pops the modal for the delete confirmation dialogue, check if vulnerable to XSS?
+// pops the modal for the delete confirmation dialogue
 function modalPopup(url) {
 
   var xhr = new XMLHttpRequest;
@@ -14,7 +14,7 @@ function modalPopup(url) {
   xhr.open("GET", url);
   xhr.send();
 }
-
+// creates a xhr post request, updates modal content if not redirected.
 function modalPostRequest(url, id) {
 
   var xhr = new XMLHttpRequest;

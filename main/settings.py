@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'contacts.apps.ContactsConfig',
+    'home.apps.HomeConfig',
     'bootstrap5',
 ]
 
@@ -117,8 +118,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth stuff
-LOGIN_REDIRECT_URL = reverse_lazy('contacts')
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 # Static files
 STATIC_URL = "/static/"

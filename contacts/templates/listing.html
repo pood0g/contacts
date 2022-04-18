@@ -1,34 +1,29 @@
 {% extends 'navbar.html' %}
 
-{% load bootstrap5 %}
-{% load modal_popup %}
+{% load modal %}
 
 {% block content %}
 <div class="containter m-3 p-3">
     <div class="row pb-3">
-        <form method="post">
-            <div class="input-group input-group-sm" style="width: 50%;">
-                {% csrf_token %}
-                {{ search_form.query }}
-                <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
-            </div>
-        </form>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-hover table-responsive-sm">
+            <table class="table table-hover table-responsive-sm" id="contacts">
                 <thead>
                     <tr>
                         <th width="20%">First Name</th>
                         <th width="20%">Last Name</th>
                         <th width="25%">Email</th>
                         <th width="15%">Phone</th>
-                        <th width="auto"><button class="btn btn-success float-end" {% url 'add' as add %}{% modal_popup add %}><i
-                                    class="fa fa-plus"></i></button></th>
+                        {% url 'add' as add %}
+                        <th width="auto"><button class="btn btn-success float-end" {% modal_popup add %}>
+                            <i class="fa fa-plus"></i></button></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for contact in contacts %}
+                    {% for contact in listing %}
+                    {% url 'modify' contact.slug as modify %}
+                    {% url 'delete' contact.slug as delete %}
                     <tr>
                         <td>{{ contact.firstname }}</td>
                         <td>{{ contact.lastname }}</td>
@@ -36,9 +31,9 @@
                         <td>{{ contact.phone }}</td>
                         <td>
                             <div class="btn-group float-end">
-                                <button class="btn btn-primary" {% url 'modify' contact.slug as modify %}{% modal_popup modify %}><i
+                                <button class="btn btn-primary" {% modal_popup modify %}><i
                                         class="fa fa-pencil"></i></button>
-                                <button class="btn btn-danger" {% url 'delete' contact.slug as delete %}{% modal_popup delete %}><i
+                                <button class="btn btn-danger" {% modal_popup delete %}><i
                                         class="fa fa-trash"></i></button>
                             </div>
                         </td>
@@ -46,14 +41,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modal_div">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="modal_body">
-            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,16 @@
+{% load bootstrap5 %}
+{% load modal %}
+<div class="modal-header">
+    <h3>Register new user</h3>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+    <div class="containter-sm">
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form registration_form %}
+            {% url 'register' as register %}
+            <button class="btn btn-primary" {% modal_post_request register %}>Register</button>
+        </form>
+    </div>
+</div>

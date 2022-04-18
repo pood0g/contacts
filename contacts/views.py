@@ -1,47 +1,34 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from .models import Contact
-from .forms import ContactDetailsForm, RegisterUserForm, SearchContactsForm 
-from django.views.generic import CreateView, UpdateView, DeleteView
+from .forms import ContactDetailsForm
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 
-def home_page(request):
-    return render(request, "home.html")
 
-@login_required(login_url="/auth/login")
-def contacts_page(request):
-    if request.method == "POST":
-        form = SearchContactsForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            contacts =\
-                Contact.objects.filter(
-                    (Q(firstname__icontains=query) |\
-                    Q(lastname__icontains=query) |\
-                    Q(email__icontains=query) |\
-                    Q(phone=query)) &\
-                    Q(owner=request.user)
-                )
-    else:
-        contacts = Contact.objects.filter(owner=request.user)
-    context = {
-        "active": 1,
-        "contacts": contacts,
-        "search_form": SearchContactsForm(),
-    }
-    return render(request, "contacts.html", context)
+class ContactsView(LoginRequiredMixin, ListView):
+    template_name = "listing.html"
+    model = Contact
+    context_object_name = "listing"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contact'] = self.queryset
+        context['search_bar'] = True
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(owner=self.request.user)
 
 
 class AddContactView(CreateView, LoginRequiredMixin):
     template_name = "add_modify.html"
     form_class = ContactDetailsForm
-    success_url = reverse_lazy("contacts")
+    success_url = reverse_lazy("listing")
     model = Contact
     extra_context = {
         "heading": "Add contact",
@@ -59,12 +46,12 @@ class AddContactView(CreateView, LoginRequiredMixin):
 
     def form_invalid(self, form):
         messages.error(self.request, "Contacts form was invalid")
-        return redirect('contacts')
+        return redirect('listing')
 
 
 class ModifyContactView(UpdateView, LoginRequiredMixin):
     template_name = "add_modify.html"
-    success_url = reverse_lazy("contacts")
+    success_url = reverse_lazy("listing")
     model = Contact
     form_class = ContactDetailsForm
     extra_context = {
@@ -83,13 +70,13 @@ class ModifyContactView(UpdateView, LoginRequiredMixin):
             messages.success(self.request, "Contact updated successfully.")
         else:
             messages.error(self.request, "Contact not modified.")
-        return redirect('contacts')
+        return redirect('listing')
 
 
 class DeleteContactView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     model = Contact
-    success_url = reverse_lazy('contacts')
+    success_url = reverse_lazy('listing')
 
     def form_valid(self, form):
         if self.object.owner == self.request.user:
@@ -98,19 +85,3 @@ class DeleteContactView(LoginRequiredMixin, DeleteView):
         else:
             messages.error(self.request, "Contact not deleted")
         return redirect(self.success_url)
-
-
-def register_user(request):
-    if request.method == "POST":
-        form = RegisterUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "User Registered Successfully")
-            return redirect("contacts")
-        messages.error(request, "Registration Failed")
-
-    context = {
-        "registration_form": RegisterUserForm()
-    }
-    return render(request, "register.html", context)

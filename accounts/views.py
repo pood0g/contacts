@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -9,7 +9,7 @@ from .forms import RegisterUserForm, UserLoginForm
 class RegisterUserView(FormView):
     form_class = RegisterUserForm
     success_url = reverse_lazy("home")
-    template_name = "registration/register.html"
+    template_name = "register.html"
 
     def form_valid(self, form):
         user = form.save()
@@ -25,7 +25,7 @@ class RegisterUserView(FormView):
 class UserLoginView(FormView):
     form_class = UserLoginForm
     success_url = reverse_lazy("home")
-    template_name = 'registration/login.html'
+    template_name = 'login.html'
 
     def form_valid(self, form):
         login(self.request, form.get_user())

@@ -1,19 +1,39 @@
-from django.contrib.auth.forms import UserCreationForm
+import email
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 
 class RegisterUserForm(UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(
+            attrs={
+                "placeholder": "",
+                "class": "form-control",
+                "pattern": r"(?!^\d+$)^.{8,150}$",
+                })
+        self.fields['password2'].widget = forms.PasswordInput(
+            attrs={
+                "placeholder": "",
+                "class": "form-control",
+                "onkeyup": "passwordsMatch()"
+                })
+        self.fields['password2'].help_text = "Passwords must match"
+        self.fields['password2'].label = "Verify Password"
+
 
     first_name = forms.RegexField(
         regex=r"^\w{1,150}$",
         required=True,
         max_length=150,
         label="First Name",
+        help_text="Alpha characters only",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Enter first name",
+                "placeholder": "",
                 "class": "form-control",
-                "pattern": "^[a-zA-Z]{1,50}$",
+                "pattern": r"^[a-zA-Z]{1,50}$",
                 }))
 
     last_name = forms.RegexField(
@@ -21,11 +41,12 @@ class RegisterUserForm(UserCreationForm):
         required=True,
         max_length=150,
         label="Last Name",
+        help_text="Alpha characters only",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Enter last name",
+                "placeholder": "",
                 "class": "form-control",
-                "pattern": "^[a-zA-Z]{1,50}$",
+                "pattern": r"^[a-zA-Z]{1,50}$",
                 }))
     
     email = forms.EmailField(
@@ -33,19 +54,20 @@ class RegisterUserForm(UserCreationForm):
         max_length=80,
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "Enter email address",
+                "placeholder": "",
                 "class": "form-control",
-                "pattern": "^[\w\.]+@\w+\.(\w+\.?)+$"
+                "pattern": r"^[\w\.]+@\w+\.(\w+\.?)+$"
                 }))
 
     username = forms.RegexField(
-        regex=r"^\w{1,150}$",
+        regex=r"^\w{4,150}$",
         required=True,
         max_length=150,
+        help_text="Minimum 4 chars, Letters, Numbers and underscores only.",
         widget=forms.TextInput({
-            "placeholder": "Enter your username",
+            "placeholder": "",
             "class": "form-control",
-            "pattern": "^\w{1,150}$"
+            "pattern": r"^[\S]{8,150}$",
         }))
 
 
@@ -62,4 +84,23 @@ class RegisterUserForm(UserCreationForm):
             user.save()
         return user
 
-    
+class UserLoginForm(AuthenticationForm):
+
+    class Meta:
+        model = User
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.TextInput(
+            attrs={
+                "placeholder": "",
+                "class": "form-control",
+                "pattern": r"^[\S]{4,150}$"
+                })
+        self.fields['password'].widget = forms.PasswordInput(
+            attrs={
+                "placeholder": "",
+                "class": "form-control",
+                "pattern": r"(?!^\d+$)^.{8,150}$",
+                })
+        

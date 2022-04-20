@@ -3,13 +3,22 @@
     <h3>Login</h3>
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
+{% include 'messages.html' with messages=messages %}
 <div class="modal-body">
     <div class="containter-sm py-2">
         {% url 'login' as login %}
-        <form action="{% modal_post_request login 'login_form' %}" id="login_form">
+        <form action="{% modal_post_request login %}" class="needs-validation" novalidate id="modal_form">
             {% csrf_token %}
-            {{ form }}
-            <button type="submit" class="btn btn-primary" >Login</button>
+            {% for field in form %}
+            <div class="form-floating pb-2" id="{{ field.auto_id }}">
+                {{ field }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                <div class="invalid-feedback"></div>
+            </div>
+            {% endfor %}
+            <div class="btn-group pt-3 float-end">
+                <button type="submit" class="btn btn-primary" >Login</button>
+            </div>
         </form>
     </div>
 </div>

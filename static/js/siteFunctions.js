@@ -15,14 +15,16 @@ function modalPopup(url) {
   xhr.send();
 }
 // creates a xhr post request, updates modal content if not redirected.
-function modalPostRequest(url, id) {
+function modalPostRequest(url) {
 
   var xhr = new XMLHttpRequest;
-  var formData = new FormData(document.querySelector(`#${id}`));
+  var formData = new FormData(document.querySelector('#modal_form'));
 
   xhr.onload = function () {
     if (this.responseURL.endsWith(url)) {
-    document.querySelector('#modal_content').innerHTML = xhr.response;
+      document.querySelector('#modal_content').innerHTML = xhr.response;
+      addValidators();
+      dismissAlerts()
     } else document.location = this.responseURL;
   }
 
@@ -31,11 +33,13 @@ function modalPostRequest(url, id) {
 }
 
 // Auto dismiss alerts
-setTimeout(function () {
-  let alertElement = document.querySelector(".alert");
-  if (alertElement)
-    bootstrap.Alert.getOrCreateInstance(alertElement).close()
-}, 10000);
+function dismissAlerts() {
+  setTimeout(function () {
+    let alertElement = document.querySelector(".alert");
+    if (alertElement)
+      bootstrap.Alert.getOrCreateInstance(alertElement).close()
+  }, 10000);
+}
 
 // validates the form on clicking submit from bootstrap help docs
 function addValidators() {
@@ -56,6 +60,11 @@ function addValidators() {
     })
 }
 
+function passwordsMatch() {
+  var password1 = document.querySelector("input[name='password1']")
+  var password2 = document.querySelector("input[name='password2']")
+  password2.setCustomValidity((password1.value == password2.value && password1.validity.valid) ? "" : "Passwords must match")
+}
 
 /* 
 this is an overly simplicated search feature, could use some improvements

@@ -13,6 +13,7 @@ class ContactDetailsForm(forms.ModelForm):
         regex=r"^[a-zA-Z]+$",
         max_length=50,
         label="First Name",
+        help_text="First name must consist only uppercase and lowercase letters.",
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter first name",
@@ -24,6 +25,7 @@ class ContactDetailsForm(forms.ModelForm):
         regex=r"^[a-zA-Z]+$",
         max_length=50,
         label="Last Name",
+        help_text="Last name must consist only uppercase and lowercase letters.",
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter last name",
@@ -34,6 +36,7 @@ class ContactDetailsForm(forms.ModelForm):
     email = forms.EmailField(
         label="Email Address",
         max_length=80,
+        help_text="Enter a valid email address.",
         widget=forms.EmailInput(
             attrs={
                 "placeholder": "Enter email address",
@@ -45,6 +48,7 @@ class ContactDetailsForm(forms.ModelForm):
         regex=r"[\d\(\)\-\s\+]+",
         label="Phone Number",
         max_length=20,
+        help_text="Phone must consist only digits spaces or + ( ) -",
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Enter phone number",

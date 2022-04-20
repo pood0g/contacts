@@ -3,16 +3,17 @@
     <h3>Register new user</h3>
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
+{% include 'messages.html' with messages=messages %}
 <div class="modal-body">
     {% url 'register' as register %}
-    <form action="{% modal_post_request register 'register_form' %}" class="needs-validation" id="register_form">
+    <form action="{% modal_post_request register %}" class="needs-validation" id="modal_form" novalidate>
         {% csrf_token %}
         {% for field in form %}
 
         <div class="form-floating pb-2" id="{{ field.auto_id }}">
             {{ field }}
             <label for="{{ field.auto_id }}">{{ field.label }}</label>
-            <div class="invalid-feedback"></div>
+            <div class="invalid-feedback"> {{ field.help_text }}</div>
         </div>
         
         {% endfor %}

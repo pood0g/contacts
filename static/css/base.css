@@ -7,3 +7,9 @@
     border-top-right-radius: 3.2px;
     border-bottom-right-radius: 3.2px;
 }
+
+.search-bar {
+    position: absolute;
+    left: 80px;
+    width: 30%;
+  }

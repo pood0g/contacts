@@ -10,5 +10,5 @@ constants = {
         ("pwman", "fa-key"),
         ],
         
-    "SITE_TITLE": "CRuMbs",
+    "SITE_TITLE": "CyberMan",
 }

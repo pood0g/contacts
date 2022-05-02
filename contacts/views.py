@@ -9,7 +9,7 @@ from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 
 
-class ContactsView(LoginRequiredMixin, ListView):
+class ListContactsView(LoginRequiredMixin, ListView):
     template_name = "listing.html"
     model = Contact
     context_object_name = "listing"

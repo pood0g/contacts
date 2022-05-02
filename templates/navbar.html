@@ -7,18 +7,7 @@
         <a href="/" class="navbar-brand">
             <img src="{% static 'img/pood0g.jpg' %}" width=40 alt="">
         </a>
-        {% if search_bar %}
-        <div class="input-group input-group-sm search-bar">
-            <input type="text" id="search_bar" class="form-control" onkeyup="searchBar(this.value, 'listing')">
-            <span class="input-group-text"><i class="fa fa-search"></i></span>
-        </div>
-        {% endif %}
         <ul class="navbar-nav">
-            {% if not home%}
-            <li class="nav-item">
-                <a class="nav-link" href="/"><i class="fa fa-home"></i> Home</a>
-            </li>
-            {% endif %}
             {% if not user.is_authenticated %}
             <li class="nav-item">
                 {% url 'login' as login %}
@@ -30,15 +19,16 @@
                     Register</a>
             </li>
             {% else %}
+            {% for nav in nav_items %}
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'listing' %}"><i class="fa fa-address-book fa-sm"></i>
-                    Contacts</a>
+                <a class="nav-link {{ nav.active }}" href="{{ nav.url }}"><i class="fa {{ nav.icon }}"></i>
+                    {{ nav.title }}</a>
             </li>
+            {% endfor %}
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out fa-sm"></i> Logout</a>
             </li>
-        </ul>
-        {% endif %}
         </ul>
     </div>
 </nav>

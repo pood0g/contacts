@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
+    'events.apps.EventsConfig',
+    'pwman.apps.PwmanConfig'
 ]
 
 
@@ -50,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.page_data',
             ],
         },
     },

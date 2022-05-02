@@ -1,0 +1,18 @@
+<script>
+    const calElement = document.querySelector('#calendar');
+    
+    var calendarObj = new FullCalendar.Calendar(calElement, {
+        initialView: 'dayGridMonth',
+        themeSystem: 'bootstrap5',
+        dateClick: function(info){
+            console.log(info)
+        }
+    })
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        calendarObj.render()
+    })
+    
+    calendarObj
+
+</script>

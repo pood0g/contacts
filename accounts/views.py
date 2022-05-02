@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, RedirectView
 from .forms import RegisterUserForm, UserLoginForm
 
 
@@ -36,3 +36,8 @@ class UserLoginView(FormView):
         for error in form.errors.values():
             messages.error(self.request, f"{error.as_text().strip('* ')}")
         return super().form_invalid(form)
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logged out successfully")
+    return redirect('home')

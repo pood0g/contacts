@@ -7,6 +7,7 @@ constants = {
         ("home", "fa-home"),
         ("contacts", "fa-address-book"),
         ("calendar","fa-calendar"),
+        ("pwman", "fa-key"),
         ],
         
     "SITE_TITLE": "CRuMbs",

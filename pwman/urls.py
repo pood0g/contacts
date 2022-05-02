@@ -1,5 +1,5 @@
 from django.urls import path
-from views import PasswordListView, PasswordDeleteView, PasswordUpdateView, PasswordAddView
+from .views import PasswordListView, PasswordDeleteView, PasswordUpdateView, PasswordAddView
 
 urlpatterns = [
     path("/", PasswordListView.as_view(), name="pw_list"),

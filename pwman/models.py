@@ -5,7 +5,7 @@ from base64 import b64encode, b64decode
 class Passwords(models.Model):
     
     class Meta:
-        sorting_order = "Website"
+        ordering = "Website"
 
     site = models.CharField(max_length=1024)
     username = models.CharField(max_length=255)
